@@ -175,6 +175,11 @@ async def process_line(ap, line):
         sta = ap.get_sta(fields[3], radio=fields[0])
         sta.expected_throughput = int(fields[4], 16) / 10
 
+    # if "txs" in line.decode("utf-8").rstrip():
+    #     fields = line.decode("utf-8").rstrip().split(";")
+    #     sta = ap.get_sta(fields[3], radio = fields[0])
+    #     sta.actual_rate_set = fields[7].split(",")[0]
+
     elif fields := validate_line(ap, line.decode("utf-8").rstrip()):
         match fields[2]:
             case "sta":
@@ -313,7 +318,7 @@ def update_rate_stats_from_txs(
 ) -> None:
     if (sta := ap.get_sta(mac, radio=phy)) is None:
         return
-
+    sta.actual_rate_set = rates
     sta.update_rate_stats(timestamp, rates, txpwrs, attempts, successes)
     sta.update_ampdu(num_frames)
 

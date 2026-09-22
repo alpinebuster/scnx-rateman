@@ -71,6 +71,7 @@ class Station:
         self._rc_paused = False
         self._log = logger if logger else logging.getLogger()
         self._expected_throughput = None
+        self._actual_rate_set = None
 
     @property
     def loop(self):
@@ -86,6 +87,17 @@ class Station:
     @expected_throughput.setter
     def expected_throughput(self, throughput: float):
         self._expected_throughput = throughput
+
+    @property
+    def actual_rate_set(self) -> float:
+        """
+        Return the rate set by the driver.
+        """
+        return self._actual_rate_set
+
+    @actual_rate_set.setter
+    def actual_rate_set(self, rate: int):
+        self._actual_rate_set = rate
 
     @property
     def associated(self) -> bool:
